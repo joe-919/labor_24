@@ -181,7 +181,7 @@ document..getElementById("mainTable").addEventListener("touchend",function(event
   
   </body>
 </html>
-)HTMLHOMEPAGE;
+)HTMLHOMEPAGE";
 
 void  setUpPinModes()
 {
@@ -277,17 +277,17 @@ void  onCarInputWebSocketEvent(AsyncWebSocket *server,AsyncWebSocketClient  *cli
 {
   switch (type)
   {
-    case WS_EVT_CONNECT;/* constant-expression */:
+    case WS_EVT_CONNECT:  /* constant-expression */
     /* code */
     Serial.printf("WebSocket client #%u connected from %s\n",client->id(), client->remoteIP().toString().c_str());
     break;
 
-    case WS_EVT_DISCONNECT;/* constant-expression */:
+    case WS_EVT_DISCONNECT:  /* constant-expression */
     /* code */
     Serial.printf("WebSocket client #%u disconnected\n", client->id());
     break;
 
-    case WS_EVT_DATA;/* constant-expression */:
+    case WS_EVT_DATA: /* constant-expression */
     /* code */
       AwsFrameInfo *info;
       info  = (AwsFrameInfo*)arg;
@@ -297,8 +297,8 @@ void  onCarInputWebSocketEvent(AsyncWebSocket *server,AsyncWebSocketClient  *cli
         myData.assign((char *)data,len);
         std::istringstream ss(myData);
         std::string key,value;
-        std::getline(ss,key,",");
-        std::getline(ss, value,",");
+        std::getline(ss,key,',');
+        std::getline(ss, value,',');
         Serial.printf("Key [%s] Value [%s]\n", key, value); //Speed,120; MoveCar,1
         int valueInt  = atoi(value.c_str());
         if(key =="MoveCar")
@@ -313,10 +313,10 @@ void  onCarInputWebSocketEvent(AsyncWebSocket *server,AsyncWebSocketClient  *cli
       }
     break;
 
-    case WS_EVT_PONG;/* constant-expression */:
+    case WS_EVT_PONG:  /* constant-expression */
     /* code */
     break;
-     case WS_EVT_ERROR;/* constant-expression */:
+    case WS_EVT_ERROR: /* constant-expression */
     /* code */
     break;
   
@@ -332,7 +332,7 @@ void setup() {
   setUpPinModes();  //self function
   Serial.begin(11520);
   WiFi.softAP(ssid,password);
-  IPAddress IP= WiFi.softAP();
+  IPAddress IP= WiFi.softAPIP();
   Serial1.print("AP IP address");
   Serial1.println(IP);
 
@@ -342,7 +342,7 @@ void setup() {
   wsCarInput.onEvent(onCarInputWebSocketEvent);
   server.addHandler(&wsCarInput); // need to know memory address
   server.begin();
-  Serial.println("HTTP Server started")
+  Serial.println("HTTP Server started");
 
 
 
